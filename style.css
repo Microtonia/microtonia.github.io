@@ -1,0 +1,121 @@
+* {
+	max-width: 100%;
+}
+
+@font-face {
+	font-family: "ShasavMusic";
+	src: url("shasav.otf");
+}
+:root {
+	--font-icon: "Material Symbols Rounded";
+}
+
+.shasav {
+	font-family: "ShasavMusic", san-serif;
+	font-size: 20px;
+}
+
+.btn-6d, .btn-7d {
+	display: none;
+}
+
+.hz::after {
+	content: " Hz"
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	user-select: none;
+	touch-action: none;
+	--font: san-serif;
+}
+
+body.dark {
+	--primary: #cccccc;
+}
+
+nav {
+	min-height: 2.5rem;
+}
+
+i {
+	border-radius: 0 !important;
+}
+
+:is(.checkbox,.radio)>span:not(:empty) {
+    padding-inline-start: 0;
+}
+
+:is(nav,.row).tiny-space {
+	gap: 2%;
+	justify-content: space-between;
+}
+
+canvas {
+	image-rendering: auto;
+}
+#sequencer, #sequencer * {
+	max-width: none;
+}
+
+#sequencer {
+	width: 100vw;
+	height: 100dvh;
+	background-color: #676681;
+}
+
+header {
+	padding-block-end: 0;
+}
+
+#config {
+	width: fit-content;
+	left: 0;
+	right: 0;
+	margin: auto;
+	max-width: 30rem;
+	max-height: 85vh;
+	overflow: auto;
+}
+
+#config>nav {
+	margin-block-start: 0.5rem;
+}
+
+.pop-up {
+	z-index: 120;
+}
+
+.slider:before, .slider>span {
+	block-size: 0.5rem;
+	inset: calc(50% - .25rem) var(--_end) auto var(--_start);
+}
+.slider>input::-webkit-slider-thumb {
+	block-size: 1.5rem;
+}
+.slider>input::-moz-range-thumb {
+	block-size: 1.5rem;
+}
+.slider>.tooltip {
+	--_space: -0.5rem;
+}
+
+i.huge {
+	--_size: 3rem;
+}
+.short {
+	width: 8rem;
+}
+.short>input {
+	text-align: center;
+	transform: translate(0px, -5px);
+	font-size: x-large;
+}
+a.disabled {
+	pointer-events: none;
+}
+span.nowrap {
+	text-wrap-mode: nowrap;
+}

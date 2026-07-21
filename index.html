@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Nafchanaphata</title>
+<link href="https://cdn.jsdelivr.net/npm/beercss@3.10.5/dist/cdn/beer.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+<link rel="icon" href="./favicon.ico">
+</head>
+<body class="dark">
+<div id="sequencer"></div>
+<header class="absolute bottom responsive max small-blur"><nav class="tiny-space primary-text">
+	<label class="checkbox icon small-padding">
+		<input type="checkbox" id="shift-mode-btn"><span><i>link_off</i><i>link</i></span>
+	</label>
+	<button id="undo-btn" class="circle transparent"><i class="large fill">undo</i></button>
+	<div class="max"></div>
+	<button id="stop-btn" class="circle transparent"><i class="large fill">stop</i></button>
+	<button id="play-btn" class="circle transparent"><i class="huge fill">play_arrow</i></button>
+	<label class="checkbox icon small-padding"><input id="repeat-btn" type="checkbox"><span><i>repeat</i><i>repeat_on</i></span></label>
+	<div class="max"></div>
+	<button id="config-btn" class="circle transparent"><i class="fill">settings</i></button>
+	<button id="share-btn" class="circle transparent"><i class="fill">share</i></button>
+</nav></header>
+<div id="overlay" class="overlay"></div>
+<article id="rootmenu" class="pop-up border small-blur absolute">
+	<nav>
+		<button class="play-this-btn circle transparent primary-text"><i class="large fill">play_arrow</i></button>
+		<span id="roothz" class="hz" contenteditable="plaintext-only" onKeyPress="if(event.key == 'Enter') {event.preventDefault(); event.target.blur()}">440</span>
+		<span id="roottav" class="max shasav"></span>
+		<button id="rootcopy" class="circle transparent primary-text"><i>content_copy</i></button>
+		<button id="rootdelete" class="circle transparent primary-text"><i>delete</i></button>
+	</nav>
+	<nav class="small-margin">
+		<label class="checkbox icon">
+			<input id="rootmute" class="mute-btn" type="checkbox"><span><i>music_note</i><i>music_off</i></span>
+		</label>
+		<label class="slider">
+			<input id="rootvolume" type="range" value="50" min="0" max="100">
+			<span></span>
+			<div class="tooltip small-padding"></div>
+		</label>
+	</nav>
+	<nav class="no-margin no-space">
+		<span class="nowrap" data-i18n="prog">［進行］</span>
+		<button class="prog-btn circle transparent shasav">0d</button>
+		<button class="prog-btn circle transparent shasav">1d</button>
+		<button class="prog-btn circle transparent shasav">2d</button>
+		<button class="prog-btn circle transparent shasav">3d</button>
+		<button class="prog-btn circle transparent shasav">4d</button>
+		<button class="prog-btn circle transparent shasav">5d</button>
+		<button class="prog-btn circle transparent shasav btn-6d">6d</button>
+		<button class="prog-btn circle transparent shasav btn-7d">7d</button>
+		<label class="checkbox icon left-margin small-margin">
+			<input id="root-prog-dir" type="checkbox"><span><i>north</i><i>south</i></span>
+		</label>
+	</nav>
+	<nav class="no-space no-margin">
+		<span class="nowrap" data-i18n="ext">［拡張］</span>
+		<button class="root-ext-btn circle transparent shasav">0d</button>
+		<button class="root-ext-btn circle transparent shasav">1d</button>
+		<button class="root-ext-btn circle transparent shasav">2d</button>
+		<button class="root-ext-btn circle transparent shasav">3d</button>
+		<button class="root-ext-btn circle transparent shasav">4d</button>
+		<button class="root-ext-btn circle transparent shasav">5d</button>
+		<button class="root-ext-btn circle transparent shasav btn-6d">6d</button>
+		<button class="root-ext-btn circle transparent shasav btn-7d">7d</button>
+		<label class="checkbox icon left-margin small-margin">
+			<input id="root-ext-dir" type="checkbox"><span><i>north</i><i>south</i></span>
+		</label>
+	</nav>
+</article>
+<article id="menu" class="pop-up border small-blur absolute">
+	<nav>
+		<button class="play-this-btn circle transparent primary-text"><i class="large fill">play_arrow</i></button>
+		<span id="hz" class="hz"></span>
+		<span id="tav" class="max shasav"></span>
+		<button id="delete" class="circle transparent primary-text"><i>delete</i></button>
+	</nav>
+	<nav class="small-margin">
+		<label class="checkbox icon">
+			<input id="mute" class="mute-btn" type="checkbox"><span><i>music_note</i><i>music_off</i></span>
+		</label>
+		<label class="slider">
+			<input id="volume" type="range" value="50" min="0" max="100">
+			<span></span>
+			<div class="tooltip small-padding"></div>
+		</label>
+	</nav>
+	<nav class="no-margin no-space">
+		<span class="nowrap" data-i18n="trans">［転写］</span>
+		<button class="trans-btn circle transparent shasav">0d</button>
+		<button class="trans-btn circle transparent shasav">1d</button>
+		<button class="trans-btn circle transparent shasav">2d</button>
+		<button class="trans-btn circle transparent shasav">3d</button>
+		<button class="trans-btn circle transparent shasav">4d</button>
+		<button class="trans-btn circle transparent shasav">5d</button>
+		<button class="trans-btn circle transparent shasav btn-6d">6d</button>
+		<button class="trans-btn circle transparent shasav btn-7d">7d</button>
+		<label class="checkbox icon left-margin small-margin">
+			<input id="trans-dir" type="checkbox"><span><i>north</i><i>south</i></span>
+		</label>
+	</nav>
+	<nav class="no-space no-margin">
+		<span class="nowrap" data-i18n="ext">［拡張］</span>
+		<button class="ext-btn circle transparent shasav">0d</button>
+		<button class="ext-btn circle transparent shasav">1d</button>
+		<button class="ext-btn circle transparent shasav">2d</button>
+		<button class="ext-btn circle transparent shasav">3d</button>
+		<button class="ext-btn circle transparent shasav">4d</button>
+		<button class="ext-btn circle transparent shasav">5d</button>
+		<button class="ext-btn circle transparent shasav btn-6d">6d</button>
+		<button class="ext-btn circle transparent shasav btn-7d">7d</button>
+		<label class="checkbox icon left-margin small-margin">
+			<input id="ext-dir" type="checkbox"><span><i>north</i><i>south</i></span>
+		</label>
+	</nav>
+</article>
+<article id="config" class="pop-up blur absolute large-padding">
+	<h4 data-i18n="config">設定</h4>
+	<nav>
+		<span class="max" data-i18n="lang">言語</span>
+		<div class="field suffix border round small">
+			<select id="config-lang">
+				<option selected value="ja">日本語</option>
+				<option value="en">English</option>
+				<option value="sf">Safcyk</option>
+			</select>
+			<i>arrow_drop_down</i>
+		</div>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="beat-length">1拍の長さ</span>
+		<div class="field suffix small short tempo"><input id="config-beat" type="number"><a class="disabled">ms</a></div>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="tonic">基準音高</span>
+		<div class="field suffix small short tempo"><input id="config-tonic" type="number"><a class="disabled">Hz</a></div>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="scoreline">譜線</span>
+		<label class="checkbox">
+			<input id="config-scoreline-1d" type="checkbox" checked><span>1d</span>
+		</label>
+		<label class="checkbox">
+			<input id="config-scoreline-2d" type="checkbox"><span>2d</span>
+		</label>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="higherdim">高次元</span>
+		<label class="checkbox">
+			<input id="config-enable-6d" type="checkbox"><span>6d</span>
+		</label>
+		<label class="checkbox">
+			<input id="config-enable-7d" type="checkbox"><span>7d</span>
+		</label>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="time-quantize">時刻の量子化</span>
+		<label class="checkbox">
+			<input id="config-quantize-head" type="checkbox" checked><span data-i18n="head">先頭</span>
+		</label>
+		<label class="checkbox">
+			<input id="config-quantize-tail" type="checkbox"><span data-i18n="tail">末尾</span>
+		</label>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="resolution">　分解能</span>
+		<div class="field prefix suffix small short tick"><a class="disabled">1/</a><input id="config-tick" type="number"><a class="disabled" data-i18n="beat">拍</a></div>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="time-randomize">時刻のランダム化</span>
+		<div class="field prefix suffix small short tick"><a class="disabled">±</a><input id="config-humanize" type="number"><a class="disabled">ms</a></div>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="pitch-quantize">音高の量子化</span>
+		<label class="checkbox">
+			<input id="config-quantize-base" type="checkbox" name="quantize" checked><span data-i18n="base-note">底音</span>
+		</label>
+		<label class="checkbox">
+			<input id="config-quantize-sub" type="checkbox" name="quantize"><span data-i18n="other-note">その他</span>
+		</label>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="resolution">　分解能</span>
+		<div class="field suffix small short tick"><input id="config-edo" type="number"><a class="disabled">edo</a></div>
+	</nav>
+	<nav>
+		<span class="nowrap" data-i18n="tone">音色</span>
+		<div class="field suffix border round small">
+			<select id="config-tone">
+				<option selected value="salamander-piano" data-caption="Yamaha C5, Alexander Holm, CC BY 3.0">Salamander Grand Piano</option>
+				<option value="vcsl-strumstick" data-caption="Versilian Studios LLC, CC0">VCSL Strumstick</option>
+				<option value="vcsl-vibraphone" data-caption="Versilian Studios LLC, CC0">VCSL Vibraphone</option>
+				<option value="vcsl-ksharp" data-caption="Versilian Studios LLC, CC0">VCSL Concert Harp</option>
+				<option value="vcsl-pipeorgan-rode" data-caption="Simon Dalzell, Versilian Studios LLC, CC0">VCSL Pipe Orgam</option>
+			</select>
+			<i>arrow_drop_down</i>
+		</div>
+	</nav>
+	<nav>
+		<span id="tone-caption">　Yamaha C5, Alexander Holm, CC BY 3.0</span>
+	</nav>
+	<nav>
+		<span class="max" data-i18n="project">工程</span>
+		<button id="save-project-btn" class="round small" data-i18n="save">保存</button>
+		<button id="load-project-btn" class="round small" data-i18n="load">加载</button>
+	</nav>
+</article>
+<div id="snackbar" class="snackbar primary">
+	<div id="snackbar-text" class="max" data-i18n="copy-finish">コピー完了</div>
+	<a class="inverse-link"><i>close</i></a>
+</div>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.10.5/dist/cdn/beer.min.js"></script>
+<script src="https://unpkg.com/konva@9/konva.min.js"></script>
+<script src="https://unpkg.com/tone"></script>
+<script type="module" src="./js/shasav.js"></script>
+</body>
+</html>
